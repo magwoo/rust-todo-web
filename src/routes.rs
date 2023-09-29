@@ -1,12 +1,13 @@
-use actix_web::{get, post, HttpResponse};
+use actix_web::{get, post, web::Form, HttpResponse};
 use dioxus::prelude::*;
 use dioxus_ssr::render_lazy as ssr;
+use serde::{Deserialize, Serialize};
 
 use crate::prelude::*;
 
 #[get("/")]
 pub async fn index() -> HttpResponse {
-    let content = std::fs::read_to_string("./static/index.html").unwrap();
+    let content = include_str!("../static/index.html");
     HttpResponse::Ok().body(content)
 }
 
@@ -14,12 +15,14 @@ pub async fn index() -> HttpResponse {
 pub async fn home() -> HttpResponse {
     let form = rsx!(form {
         "hx-post": "/add-task",
+        "hx-swap": "none",
         input {
             "type": "text",
-            id: "title",
+            name: "title",
             background_color: "#363636"
         },
         button {
+            background_color: "#363636",
             "add"
         }
     });
@@ -31,6 +34,7 @@ pub async fn home() -> HttpResponse {
         },
         div {
             display: "Flex",
+            justify_content: "Center",
             form
         }
     });
@@ -49,13 +53,19 @@ pub async fn tasks() -> HttpResponse {
     let content = rsx!(div {
         margin: "2rem",
         for (i, task) in tasks.iter().enumerate() {
-            task_builder(format!("{}. {}", i, task.title))
+            task_builder(format!("{}. {}", i + 1, task.title))
         }
     });
     HttpResponse::Ok().body(ssr(content))
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TaskForm {
+    title: String,
+}
+
 #[post("/add-task")]
-pub async fn add_task() -> HttpResponse {
+pub async fn add_task(task: Form<TaskForm>) -> HttpResponse {
+    Task::new(&task.title).insert_db().unwrap();
     HttpResponse::Ok().finish()
 }
