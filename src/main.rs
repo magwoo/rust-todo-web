@@ -6,8 +6,13 @@ mod routes;
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
-    let server = HttpServer::new(|| App::new().service(routes::index).service(routes::home))
-        .bind(("0.0.0.0", 7878))?
-        .run();
+    let server = HttpServer::new(|| {
+        App::new()
+            .service(routes::index)
+            .service(routes::home)
+            .service(routes::tasks)
+    })
+    .bind(("0.0.0.0", 7878))?
+    .run();
     server.await
 }

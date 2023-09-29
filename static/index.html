@@ -10,6 +10,7 @@
 <body>
     <div class='container'>
         <div hx-get='/home' hx-swap='outerHTML' hx-trigger='load'></div>
+        <div hx-get='/tasks' hx-swap='outerHTML' hx-trigger='load'></div>
     </div>
 </body>
 </html>
@@ -32,6 +33,7 @@
 
     div {
         width: 100%;
+        border-radius: 1rem;
         background-color: rgb(36, 36, 36);
     }
 </style>

@@ -13,8 +13,17 @@ pub async fn home() -> HttpResponse {
     let content = rsx!(div {
         h1 {
             text_align: "center",
+            margin_bottom: "4rem",
             "Todo.rs"
         }
+    });
+    HttpResponse::Ok().body(ssr(content))
+}
+
+#[get("/tasks")]
+pub async fn tasks() -> HttpResponse {
+    let content = rsx!(div {
+        "Tasks!"
     });
     HttpResponse::Ok().body(ssr(content))
 }
