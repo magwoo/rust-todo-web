@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Mono&display=swap" rel="stylesheet">
+    <title>Todo.rs</title>
+</head>
+<body>
+    <div class='container'>
+        <div hx-get='/home' hx-swap='outerHTML' hx-trigger='load'></div>
+    </div>
+</body>
+</html>
+
+<style>
+    html, body, input, button {
+        font-family: 'PT Mono', monospace;
+        color: white;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+    }
+
+    .container {
+        width: clamp(640px, 80vw, 1080px);
+        margin: 1rem;
+    }
+
+    div {
+        width: 100%;
+        background-color: rgb(36, 36, 36);
+    }
+</style>
