@@ -1,8 +1,9 @@
-use crate::prelude::*;
 use once_cell::sync::Lazy;
 use serde_json::from_slice as deserialize;
 use serde_json::to_vec as serialize;
 use sled::Db;
+
+use crate::prelude::*;
 
 static DB: Lazy<Db> = Lazy::new(|| sled::open("database").unwrap());
 
