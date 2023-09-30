@@ -11,6 +11,12 @@ pub async fn index() -> HttpResponse {
     HttpResponse::Ok().body(content)
 }
 
+#[get("/favicon")]
+pub async fn favicon() -> Vec<u8> {
+    let image = include_bytes!("../static/favicon.ico");
+    image.to_vec()
+}
+
 #[get("/home")]
 pub async fn home() -> HttpResponse {
     let form = rsx!(form {

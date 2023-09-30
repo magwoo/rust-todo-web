@@ -12,6 +12,7 @@ async fn main() -> Result<(), std::io::Error> {
             .service(routes::home)
             .service(routes::tasks)
             .service(routes::add_task)
+            .service(routes::favicon)
     })
     .bind(("0.0.0.0", 7878))?
     .run();
