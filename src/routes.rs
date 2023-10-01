@@ -72,6 +72,8 @@ pub struct TaskForm {
 
 #[post("/add-task")]
 pub async fn add_task(task: Form<TaskForm>) -> HttpResponse {
-    Task::new(&task.title).insert_db().unwrap();
+    if let Err(e) = Task::new(&task.title).insert_db() {
+        return HttpResponse::InternalServerError().body(e.to_string());
+    }
     HttpResponse::Ok().finish()
 }
